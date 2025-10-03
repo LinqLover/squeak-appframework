@@ -1,57 +1,25 @@
 "
-Tiny framework for Squeak apps that can be updated via Metacello and receive feedback on GitHub. To use this framework, add the trait TCtApp to the main class in your project.
+Tiny framework for Squeak apps that can be updated via Metacello and receive feedback on GitHub. To participate in this framework, override at least #selfUpdate or #githubRepositoryParams in the main class in your project, plus optionally #appName, #baselineName, and #packageNamePrefix.
 "
 Class {
 	#name : #CtAppFramework,
 	#superclass : #Object,
-	#traits : 'TCtApp',
-	#classTraits : 'TCtApp classTrait',
 	#classVars : [
 		'SelfUpdateBranches',
 		'SelfUpdateMetacelloSpecs'
 	],
 	#category : #CtAppFramework,
-	#'squeak_changestamp' : 'ct 10/3/2025 03:25'
+	#'squeak_changestamp' : 'ct 10/3/2025 18:37'
 }
-
-{
-	#category : #'app - accessing',
-	#'squeak_changestamp' : 'ct 10/3/2025 01:09'
-}
-CtAppFramework class >> appName [
-
-	^ 'CtAppFramework'
-]
-
-{
-	#category : #private,
-	#'squeak_changestamp' : 'ct 10/3/2025 02:05'
-}
-CtAppFramework class >> appNameFor: aClass [
-
-	^ (aClass respondsTo: #appName)
-		ifTrue: [aClass appName]
-		ifFalse: [aClass name]
-]
 
 {
 	#category : #'accessing - apps',
-	#'squeak_changestamp' : 'ct 10/3/2025 02:04'
+	#'squeak_changestamp' : 'ct 10/3/2025 18:33'
 }
 CtAppFramework class >> apps [
 
-	^ (self systemNavigation allBehaviors select: [:class |
-		class isMeta not and: [class respondsTo: #selfUpdate]])
-			contents
-]
-
-{
-	#category : #'app - accessing',
-	#'squeak_changestamp' : 'ct 10/3/2025 01:09'
-}
-CtAppFramework class >> baselineName [
-
-	^ 'CtAppFramework'
+	^ self systemNavigation allClasses
+		select: [:class | class isCtApp]
 ]
 
 {
@@ -140,30 +108,30 @@ CtAppFramework class >> selfUpdateMetacelloSpecFor: appClass set: aString [
 
 {
 	#category : #'self-updating',
-	#'squeak_changestamp' : 'ct 10/3/2025 03:09'
+	#'squeak_changestamp' : 'ct 10/3/2025 18:32'
 }
 CtAppFramework class >> updateApps [
 
 	| apps |
 	apps := Project uiManager
-		ctChooseMultipleFromLabeledValues: (self apps sortedSafely collect: [:ea | (self appNameFor: ea) -> ea])
+		ctChooseMultipleFromLabeledValues: (self apps sortedSafely collect: [:ea | ea appName -> ea])
 		title: 'Update apps...'
 		initialSelection: self apps.
 	apps isEmptyOrNil ifTrue: [^ self].
 	
-	(apps select: [:app | app wantsSystemUpdates]) ifNotEmpty: [:someApps |
+	(apps select: [:app | app wantsSystemUpdatesBeforeSelfUpdate]) ifNotEmpty: [:someApps |
 		self confirmAndDoSystemUpdatesFor: ('{1} {2}' format: {someApps size. 'app' asPluralBasedOn: someApps}) or: [^ false]].
 	
 	apps
 		do: [:app | self selfUpdateApp: app]
-		displayingProgress: [:app | 'Updating app: {1}' format: {self appNameFor: app}].
+		displayingProgress: [:app | 'Updating app: {1}' format: {app appName}].
 	
 	self inform:
 		('{1}:<br><br><blockquote>{2}</blockquote>' asTextFromHtml format:
 			{apps size = 1
 				ifTrue: ['1 app was updated successfully']
 				ifFalse: ['{1} {2} were updated successfully' format: {apps size. 'app' asPluralBasedOn: apps}].
-			(apps collect: [:app | self appNameFor: app]) joinSeparatedBy: String cr}).
+			(apps collect: [:app | app appName]) joinSeparatedBy: String cr}).
 	
 	^ true
 ]

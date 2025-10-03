@@ -1,16 +1,10 @@
-"
-Use this trait in the main class of your project and implement at least #appName and #packageNamePrefix.
-"
-Trait {
-	#name : #TCtApp,
-	#category : #CtAppFramework
-}
+Extension { #name : #Class }
 
 {
-	#category : #'app - menu',
+	#category : #'*CtAppFramework-menu',
 	#'squeak_changestamp' : 'ct 10/3/2025 00:47'
 }
-TCtApp classSide >> appMenu: menu [
+Class >> appMenu: menu [
 
 	menu
 		add: 'send feedback...' target: self action: #sendFeedback;
@@ -23,12 +17,12 @@ TCtApp classSide >> appMenu: menu [
 ]
 
 {
-	#category : #'app - accessing',
-	#'squeak_changestamp' : 'ct 10/3/2025 00:45'
+	#category : #'*CtAppFramework-accessing',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:25'
 }
-TCtApp classSide >> appName [
+Class >> appName [
 
-	^ self requirement
+	^ self packageInfo name
 
 "Example:
 
@@ -37,10 +31,10 @@ TCtApp classSide >> appName [
 ]
 
 {
-	#category : #'app - accessing',
+	#category : #'*CtAppFramework-accessing',
 	#'squeak_changestamp' : 'ct 10/3/2025 00:56'
 }
-TCtApp classSide >> baselineName [
+Class >> baselineName [
 
 	^ self packageNamePrefix
 
@@ -51,46 +45,46 @@ TCtApp classSide >> baselineName [
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 10/3/2025 02:59'
 }
-TCtApp classSide >> basicSelfUpdate [
+Class >> basicSelfUpdate [
 
 	^ self selfUpdateFromMetacello
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 10/3/2025 01:00'
 }
-TCtApp classSide >> basicSelfUpdateBranch: aString [
+Class >> basicSelfUpdateBranch: aString [
 
 	CtAppFramework selfUpdateBranchFor: self setTo: aString.
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 10/3/2025 01:02'
 }
-TCtApp classSide >> basicSelfUpdateMetacelloSpec [
+Class >> basicSelfUpdateMetacelloSpec [
 
 	^ (CtAppFramework selfUpdateMetacelloSpecFor: self) ifNil: [#default]
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 10/3/2025 01:03'
 }
-TCtApp classSide >> basicSelfUpdateMetacelloSpec: aString [
+Class >> basicSelfUpdateMetacelloSpec: aString [
 
 	CtAppFramework selfUpdateMetacelloSpecFor: self set: aString.
 ]
 
 {
-	#category : #'app - feedback',
+	#category : #'*CtAppFramework-feedback',
 	#'squeak_changestamp' : 'ct 8/27/2023 22:35'
 }
-TCtApp classSide >> defaultFeedbackText [
+Class >> defaultFeedbackText [
 
 	^ '<br><br><i>Reported from {1} (VM: {2}), for version of {3} last updated at {4}.</i>' asTextFromHtml format:
 		{SystemVersion current.
@@ -100,10 +94,10 @@ TCtApp classSide >> defaultFeedbackText [
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 8/27/2023 20:17'
 }
-TCtApp classSide >> defaultSelfUpdateBranch [
+Class >> defaultSelfUpdateBranch [
 
 	(self environment classNamed: #MCRepositoryGroup) ifNotNil: [:mcRepositoryGroupClass |
 		| repoPrefix |
@@ -116,10 +110,10 @@ TCtApp classSide >> defaultSelfUpdateBranch [
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 8/27/2023 23:11'
 }
-TCtApp classSide >> doSelfUpdate [
+Class >> doSelfUpdate [
 
 	(Project uiManager confirm: ('Are you sure you would like to install the latest updates for {1}?' withCRs format: {self appName})) ifFalse: [^ false].
 	
@@ -128,10 +122,10 @@ TCtApp classSide >> doSelfUpdate [
 ]
 
 {
-	#category : #'app - feedback',
+	#category : #'*CtAppFramework-feedback',
 	#'squeak_changestamp' : 'ct 8/27/2023 20:16'
 }
-TCtApp classSide >> githubNewIssueUrl [
+Class >> githubNewIssueUrl [
 
 	^ self githubNewIssueUrlWithBody: '<!-- Your feedback goes here -->\' withCRs, (String streamContents: [:stream |
 		(HtmlReadWriter on: stream)
@@ -140,10 +134,10 @@ TCtApp classSide >> githubNewIssueUrl [
 ]
 
 {
-	#category : #'app - feedback',
+	#category : #'*CtAppFramework-feedback',
 	#'squeak_changestamp' : 'ct 8/27/2023 20:16'
 }
-TCtApp classSide >> githubNewIssueUrlWithBody: htmlString [
+Class >> githubNewIssueUrlWithBody: htmlString [
 
 	^ 'https://github.com/{1}/{2}/issues/new?{3}' format: {
 		self githubRepositoryParams first.
@@ -153,13 +147,13 @@ TCtApp classSide >> githubNewIssueUrlWithBody: htmlString [
 ]
 
 {
-	#category : #'app - accessing',
-	#'squeak_changestamp' : 'ct 10/3/2025 00:52'
+	#category : #'*CtAppFramework-accessing',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:27'
 }
-TCtApp classSide >> githubRepositoryParams [
+Class >> githubRepositoryParams [
 	"{owner. name. directory}"
 
-	^ self requirement
+	^ self subclassResponsibility
 
 "Example:
 
@@ -168,10 +162,10 @@ TCtApp classSide >> githubRepositoryParams [
 ]
 
 {
-	#category : #'app - accessing',
+	#category : #'*CtAppFramework-accessing',
 	#'squeak_changestamp' : 'ct 12/19/2024 23:17'
 }
-TCtApp classSide >> githubUrl [
+Class >> githubUrl [
 
 	^ 'https://github.com/{1}/{2}' format: {
 		self githubRepositoryParams first.
@@ -179,10 +173,20 @@ TCtApp classSide >> githubUrl [
 ]
 
 {
-	#category : #'app - accessing',
+	#category : #'*CtAppFramework-testing',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:27'
+}
+Class >> isCtApp [
+
+	^ (self class includesSelector: #selfUpdate)
+		or: [(self class whichClassIncludesSelector: #githubRepositoryParams) ~= thisContext methodClass]
+]
+
+{
+	#category : #'*CtAppFramework-accessing',
 	#'squeak_changestamp' : 'ct 10/3/2025 00:56'
 }
-TCtApp classSide >> latestTimeStamp [
+Class >> latestTimeStamp [
 
 	| packages |
 	packages := PackageInfo allPackages select: [:ea |
@@ -194,10 +198,10 @@ TCtApp classSide >> latestTimeStamp [
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 10/3/2025 00:56'
 }
-TCtApp classSide >> metacello [
+Class >> metacello [
 
 	^ Metacello new
 		baseline: self baselineName;
@@ -206,10 +210,10 @@ TCtApp classSide >> metacello [
 ]
 
 {
-	#category : #'app - feedback',
+	#category : #'*CtAppFramework-feedback',
 	#'squeak_changestamp' : 'ct 12/19/2024 23:37'
 }
-TCtApp classSide >> openUrl: urlString [
+Class >> openUrl: urlString [
 
 	self flag: #moveUpstream.
 	"Something similar but less convenient is also in TextURL >> #actOnClickFor:."
@@ -225,12 +229,12 @@ TCtApp classSide >> openUrl: urlString [
 ]
 
 {
-	#category : #'app - accessing',
-	#'squeak_changestamp' : 'ct 10/3/2025 00:45'
+	#category : #'*CtAppFramework-accessing',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:26'
 }
-TCtApp classSide >> packageNamePrefix [
+Class >> packageNamePrefix [
 
-	^ self requirement
+	^ self packageInfo name
 
 "Example:
 
@@ -239,37 +243,37 @@ TCtApp classSide >> packageNamePrefix [
 ]
 
 {
-	#category : #'app - self-updating',
-	#'squeak_changestamp' : 'ct 10/3/2025 03:02'
+	#category : #'*CtAppFramework-self-updating',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:30'
 }
-TCtApp classSide >> selfUpdate [
+Class >> selfUpdate [
 	"SwaLint selfUpdate"
 
-	self wantsSystemUpdates ifTrue:
+	self wantsSystemUpdatesBeforeSelfUpdate ifTrue:
 		[CtAppFramework confirmAndDoSystemUpdatesFor: self appName or: [^ self]].
 	
 	^ self basicSelfUpdate
 ]
 
 {
-	#category : #'app - self-updating',
-	#'squeak_changestamp' : 'ct 10/3/2025 01:00'
+	#category : #'*CtAppFramework-self-updating',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:40'
 }
-TCtApp classSide >> selfUpdateBranch [
+Class >> selfUpdateBranch [
 	"<preference: '{appName} self-update branch'
 		category: #{packageNamePrefix}
 		description: 'The branch used for installing updates for {appName} from the GitHub repository.'
 		type: #String>"
-	self flag: #requirement. "Users should override this and add a suitable pragma"
+	self flag: #subclassResponsibility. "Users should override this and add a suitable pragma"
 	
 	^ (CtAppFramework selfUpdateBranchFor: self) ifNil: [self defaultSelfUpdateBranch]
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 8/27/2023 20:18'
 }
-TCtApp classSide >> selfUpdateBranch: aString [
+Class >> selfUpdateBranch: aString [
 
 	self basicSelfUpdateBranch: aString.
 	
@@ -278,10 +282,10 @@ TCtApp classSide >> selfUpdateBranch: aString [
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 10/3/2025 03:16'
 }
-TCtApp classSide >> selfUpdateFromMetacello [
+Class >> selfUpdateFromMetacello [
 
 	| metacello project configuration |
 	metacello := self metacello.
@@ -296,10 +300,10 @@ TCtApp classSide >> selfUpdateFromMetacello [
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 8/27/2023 20:18'
 }
-TCtApp classSide >> selfUpdateGitHubPath [
+Class >> selfUpdateGitHubPath [
 
 	^ ('github://{1}/{2}:\{1\}/{3}' format: {
 		self githubRepositoryParams first.
@@ -308,24 +312,24 @@ TCtApp classSide >> selfUpdateGitHubPath [
 ]
 
 {
-	#category : #'app - self-updating',
-	#'squeak_changestamp' : 'ct 10/3/2025 01:05'
+	#category : #'*CtAppFramework-self-updating',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:40'
 }
-TCtApp classSide >> selfUpdateMetacelloSpec [
+Class >> selfUpdateMetacelloSpec [
 	"<preference: '{appName} self-update Metacello spec'
 		category: '{appName}'
 		description: 'The Metacello used for installing updates for {appName} from the GitHub repository.'
 		type: #String>"
-	self flag: #optionalRequirement. "Users can override this and add a suitable pragma"
+	self flag: #optionalSubclassResponsibility. "Users can override this and add a suitable pragma"
 
 	^ self basicSelfUpdateMetacelloSpec storeString
 ]
 
 {
-	#category : #'app - self-updating',
+	#category : #'*CtAppFramework-self-updating',
 	#'squeak_changestamp' : 'ct 8/27/2023 21:37'
 }
-TCtApp classSide >> selfUpdateMetacelloSpec: aString [
+Class >> selfUpdateMetacelloSpec: aString [
 
 	self basicSelfUpdateMetacelloSpec: aString.
 	
@@ -334,28 +338,28 @@ TCtApp classSide >> selfUpdateMetacelloSpec: aString [
 ]
 
 {
-	#category : #'app - feedback',
+	#category : #'*CtAppFramework-feedback',
 	#'squeak_changestamp' : 'ct 8/27/2023 20:17'
 }
-TCtApp classSide >> sendFeedback [
+Class >> sendFeedback [
 
 	^ self sendFeedbackGitHub
 ]
 
 {
-	#category : #'app - feedback',
+	#category : #'*CtAppFramework-feedback',
 	#'squeak_changestamp' : 'ct 11/12/2023 18:55'
 }
-TCtApp classSide >> sendFeedbackGitHub [
+Class >> sendFeedbackGitHub [
 
 	self openUrl: self githubNewIssueUrl
 ]
 
 {
-	#category : #'app - self-updating',
-	#'squeak_changestamp' : 'ct 10/3/2025 03:00'
+	#category : #'*CtAppFramework-self-updating',
+	#'squeak_changestamp' : 'ct 10/3/2025 18:30'
 }
-TCtApp classSide >> wantsSystemUpdates [
+Class >> wantsSystemUpdatesBeforeSelfUpdate [
 
 	^ true
 ]
