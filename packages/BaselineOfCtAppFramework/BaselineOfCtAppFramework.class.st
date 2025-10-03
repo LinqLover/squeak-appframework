@@ -6,7 +6,7 @@ Class {
 
 {
 	#category : #baseline,
-	#'squeak_changestamp' : 'ct 10/3/2025 03:16'
+	#'squeak_changestamp' : 'ct 10/3/2025 03:49'
 }
 BaselineOfCtAppFramework >> baseline: spec [
 	<baseline>
@@ -16,7 +16,7 @@ BaselineOfCtAppFramework >> baseline: spec [
 		spec package: 'CtAppFramework'.
 		
 		"groups"
-		spec group: #default with: #('SnapshotReminder')]
+		spec group: #default with: #('CtAppFramework')]
 ]
 
 {
