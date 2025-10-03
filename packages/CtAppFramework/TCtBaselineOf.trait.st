@@ -8,7 +8,7 @@ Trait {
 
 {
 	#category : #'self-updating',
-	#'squeak_changestamp' : 'ct 10/3/2025 03:26'
+	#'squeak_changestamp' : 'ct 10/3/2025 04:00'
 }
 TCtBaselineOf >> installDependencies [
 	"Install most important dependencies. Metacello>>#get is not recursive."
@@ -19,7 +19,7 @@ TCtBaselineOf >> installDependencies [
 
 	Metacello new
 		baseline: 'CtAppFramework';
-		repository: 'github://LinqLover/squeak-appframework';
+		repository: 'github://LinqLover/squeak-appframework:main';
 		get;
 		load.
 "
