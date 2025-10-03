@@ -61,11 +61,11 @@ CtAppFramework class >> initialize [
 
 {
 	#category : #private,
-	#'squeak_changestamp' : 'ct 10/3/2025 03:08'
+	#'squeak_changestamp' : 'ct 10/3/2025 20:02'
 }
 CtAppFramework class >> selfUpdateApp: app [
 
-	^ (app respondsTo: #basicSelfUpdate)
+	^ ((app class whichClassIncludesSelector: #basicSelfUpdate) ~= Class)
 		ifTrue: [app basicSelfUpdate]
 		ifFalse: [app selfUpdate]
 ]
