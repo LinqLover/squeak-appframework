@@ -23,7 +23,7 @@ spec
 "..."
 
 spec group: #recommended with: #('CtAppFramework').
-spec group: #withRecommended with: #(default recommended)].
+spec group: #withRecommended with: #(default recommended).
 ```
 
 ---
@@ -38,4 +38,4 @@ In the world main docking bar, open the main menu (Squeak icon) and click on `Up
 
 ## Framework
 
-To participate in the framework, override at least `#selfUpdate` or `#githubRepositoryParams` in the main class in your project. See the comment in [`CtAppFramework`](./packages/CtAppFramework/CtAppFramework.class.st) for more details.
+To participate in the framework, override at least `#selfUpdate` or `#githubRepositoryParams` in the main class in your project. To use the provided app menu, send `#appMenu:` to your app class. See the comment in [`CtAppFramework`](./packages/CtAppFramework/CtAppFramework.class.st) for more details.

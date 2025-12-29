@@ -1,5 +1,5 @@
 "
-Tiny framework for Squeak apps that can be updated via Metacello and receive feedback on GitHub. To participate in this framework, override at least #selfUpdate or #githubRepositoryParams in the main class in your project, plus optionally #appName, #baselineName, and #packageNamePrefix.
+Tiny framework for Squeak apps that can be updated via Metacello and receive feedback on GitHub. To participate in this framework, override at least #selfUpdate or #githubRepositoryParams in the main class in your project, plus optionally #appName, #baselineName, and #packageNamePrefix. To use the provided app menu, send #appMenu: to your app class.
 "
 Class {
 	#name : #CtAppFramework,
@@ -9,7 +9,7 @@ Class {
 		'SelfUpdateMetacelloSpecs'
 	],
 	#category : #CtAppFramework,
-	#'squeak_changestamp' : 'ct 10/3/2025 18:37'
+	#'squeak_changestamp' : 'ct 12/29/2025 04:32'
 }
 
 {
