@@ -1,5 +1,8 @@
 # squeak-appframework
+
 Tiny framework for Squeak apps that can be updated via Metacello and receive feedback on GitHub
+
+[![Number of framework apps on GitHub](https://img.shields.io/github/search?query=%22baseline%3A%20'CtAppFramework'%20with%22&label=Framework%20apps%20on%20GitHub)](https://github.com/search?q=%2Fbaseline%3A+%27CtAppFramework%27%5Cs*with%3A%2F+path%3ABaselineOf&ref=opensearch&type=code)
 
 ## Installation
 
